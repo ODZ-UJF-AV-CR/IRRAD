@@ -1,0 +1,20 @@
+﻿
+//
+// This is a project description file.
+//
+
+[InfoShortDescription.en]
+Irradiation robot 
+
+[InfoShortDescription.cs]
+Ozarovaci robot
+  
+[InfoLongDescription.en]
+This is a robot for irradiation of gel emulsion by natural ionising rays source.
+
+[InfoLongDescription.cs]
+Robot pro automaticke ozarovani gelovych emulzi prirodnim zaricem.
+
+
+
+[End]
