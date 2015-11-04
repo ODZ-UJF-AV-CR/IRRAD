@@ -18,46 +18,38 @@ class axis:
 
     def Reset(self):
         ' Reset Axis and set default parameters for H-bridge '
-        spi.SPI_write(self.CS, 0xC0)      # reset
-        spi.SPI_write(self.CS, 0x14)      # Stall Treshold setup
-        spi.SPI_write(self.CS, 0x7F)  
-        spi.SPI_write(self.CS, 0x14)      # Over Current Treshold setup 
-        spi.SPI_write(self.CS, 0x0F)  
-        #spi.SPI_write(self.CS, 0x15)      # Full Step speed 
-        #spi.SPI_write(self.CS, 0x00)
-        #spi.SPI_write(self.CS, 0x30) 
-        #spi.SPI_write(self.CS, 0x0A)      # KVAL_RUN
-        #spi.SPI_write(self.CS, 0x50)
+        spi.SPI_write_byte(self.CS, 0xC0)      # reset
+        spi.SPI_write_byte(self.CS, 0x14)      # Stall Treshold setup
+        spi.SPI_write_byte(self.CS, 0x7F)  
+        spi.SPI_write_byte(self.CS, 0x14)      # Over Current Treshold setup 
+        spi.SPI_write_byte(self.CS, 0x0F)  
+        #spi.SPI_write_byte(self.CS, 0x15)      # Full Step speed 
+        #spi.SPI_write_byte(self.CS, 0x00)
+        #spi.SPI_write_byte(self.CS, 0x30) 
+        #spi.SPI_write_byte(self.CS, 0x0A)      # KVAL_RUN
+        #spi.SPI_write_byte(self.CS, 0x50)
       
     def MaxSpeed(self, speed):
         ' Setup of maximum speed '
-        spi.SPI_write(self.CS, 0x07)       # Max Speed setup 
-        spi.SPI_write(self.CS, 0x00)
-        spi.SPI_write(self.CS, speed)  
+        spi.SPI_write_byte(self.CS, 0x07)       # Max Speed setup 
+        spi.SPI_write_byte(self.CS, 0x00)
+        spi.SPI_write_byte(self.CS, speed)  
 
     def ReleaseSW(self):
         ' Go away from Limit Switch '
         while self.ReadStatusBit(2) == 1:           # is Limit Switch ON ?
-            spi.SPI_write(self.CS, 0x92 | (~self.Dir & 1))     # release SW 
+            spi.SPI_write_byte(self.CS, 0x92 | (~self.Dir & 1))     # release SW 
             while self.IsBusy():
                 pass
-            self.MoveWait(10)           # move 10 units awey
-            '''         
-            spi.SPI_write(self.CS, 0x40 | (~self.Dir & 1))       # move 0x2000 steps away
-            spi.SPI_write(self.CS, 0x00)
-            spi.SPI_write(self.CS, 0x20)
-            spi.SPI_write(self.CS, 0x00)
-            while self.IsBusy():
-                pass
-            '''
+            self.MoveWait(10)           # move 10 units away
  
     def GoZero(self, speed):
         ' Go to Zero position '
         self.ReleaseSW()
 
-        spi.SPI_write(self.CS, 0x82 | (self.Dir & 1))       # Go to Zero
-        spi.SPI_write(self.CS, 0x00)
-        spi.SPI_write(self.CS, speed)  
+        spi.SPI_write_byte(self.CS, 0x82 | (self.Dir & 1))       # Go to Zero
+        spi.SPI_write_byte(self.CS, 0x00)
+        spi.SPI_write_byte(self.CS, speed)  
         while self.IsBusy():
             pass
         time.sleep(0.3)
@@ -67,13 +59,13 @@ class axis:
         ' Move some distance units from current position '
         steps = units * self.SPU  # translate units to steps 
         if steps > 0:                                          # look for direction
-            spi.SPI_write(self.CS, 0x40 | (~self.Dir & 1))       
+            spi.SPI_write_byte(self.CS, 0x40 | (~self.Dir & 1))       
         else:
-            spi.SPI_write(self.CS, 0x40 | (self.Dir & 1)) 
+            spi.SPI_write_byte(self.CS, 0x40 | (self.Dir & 1)) 
         steps = int(abs(steps))     
-        spi.SPI_write(self.CS, (steps >> 16) & 0xFF)
-        spi.SPI_write(self.CS, (steps >> 8) & 0xFF)
-        spi.SPI_write(self.CS, steps & 0xFF)
+        spi.SPI_write_byte(self.CS, (steps >> 16) & 0xFF)
+        spi.SPI_write_byte(self.CS, (steps >> 8) & 0xFF)
+        spi.SPI_write_byte(self.CS, steps & 0xFF)
 
     def MoveWait(self, units):
         ' Move some distance units from current position and wait for execution '
@@ -83,16 +75,16 @@ class axis:
 
     def Float(self):
         ' switch H-bridge to High impedance state '
-        spi.SPI_write(self.CS, 0xA0)
+        spi.SPI_write_byte(self.CS, 0xA0)
 
     def ReadStatusBit(self, bit):
         ' Report given status bit '
-        spi.SPI_write(self.CS, 0x39)   # Read from address 0x19 (STATUS)
-        spi.SPI_write(self.CS, 0x00)
-        data0 = spi.SPI_read()           # 1st byte
-        spi.SPI_write(self.CS, 0x00)
-        data1 = spi.SPI_read()           # 2nd byte
-        print hex(data0), hex(data1)
+        spi.SPI_write_byte(self.CS, 0x39)   # Read from address 0x19 (STATUS)
+        spi.SPI_write_byte(self.CS, 0x00)
+        data0 = spi.SPI_read_byte()           # 1st byte
+        spi.SPI_write_byte(self.CS, 0x00)
+        data1 = spi.SPI_read_byte()           # 2nd byte
+        #print hex(data0), hex(data1)
         if bit > 7:                                   # extract requested bit
             OutputBit = (data0 >> (bit - 8)) & 1
         else:
@@ -107,16 +99,30 @@ class axis:
         else:
             return True
 
+# End Class axis --------------------------------------------------
+
+
+
+
 
 cfg = config.Config(
     i2c = {
-        "port": 8,
+        "port": 1,
     },
 
-    bus = [
-        { "name":"spi", "type":"i2cspi"},
+    bus = 
+    [
+		{
+			"type": "i2chub",
+			"address": 0x70,
+			"children": 
+            [
+                { "name":"spi", "type":"i2cspi", "channel":7}
+            ],
+		},
     ],
 )
+
 
 cfg.initialize()
 
@@ -124,6 +130,7 @@ print "Irradiation unit. \r\n"
 
 spi = cfg.get_device("spi")
 
+spi.route()
 
 
 try:
@@ -136,12 +143,13 @@ try:
         X = axis(spi.I2CSPI_SS1, 0, 641)
         Y = axis(spi.I2CSPI_SS0, 1, 642)
         Z = axis(spi.I2CSPI_SS2, 1, 32256)
+
         X.MaxSpeed(60)
         Y.MaxSpeed(60)
         Z.MaxSpeed(38)
         
         Z.GoZero(100)
-        #Y.GoZero(20)
+        Y.GoZero(20)
         X.GoZero(20)
 
         time.sleep(1)
