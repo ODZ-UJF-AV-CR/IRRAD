@@ -162,16 +162,17 @@ try:
         Z.MoveWait(37)
         time.sleep(1)
         Z.MoveWait(-5)
-        Y.Move(-4)        
-        X.MoveWait(73)
-        
-            
+                    
         print "Robot is running"
 
-        xsteps = 2 #9
-        ysteps = 6
+        corner = 73
+        xsteps = 9
+        ysteps = 6 # *2 + 1 line
         space = 5
         grid = 8
+
+        #Y.Move(-4)        
+        X.MoveWait(corner)
 
         for y in range(ysteps):
             for x in range(xsteps):
@@ -189,9 +190,17 @@ try:
                     X.MoveWait(-grid)
             Y.MoveWait(-grid)
 
-        X.MoveWait(-74)
+        for x in range(xsteps):
+            Z.MoveWait(space)
+            time.sleep(1)
+            Z.MoveWait(-space)
+            if x < (xsteps - 1):
+                X.MoveWait(grid)
+        Y.MoveWait(-20)
+
+        X.MoveWait(-(corner+(xsteps-1)*grid))
         #Z.MoveWait(-10)
-        Y.MoveWait(ysteps*grid*2+4)
+        Y.MoveWait(ysteps*grid*2+20)
         X.Float()
         Y.Float()
         Z.Float()
