@@ -144,9 +144,12 @@ try:
         Y = axis(spi.I2CSPI_SS0, 1, 642)
         Z = axis(spi.I2CSPI_SS2, 1, 32256)
 
-        X.MaxSpeed(60)
-        Y.MaxSpeed(60)
-        Z.MaxSpeed(38)
+        #X.MaxSpeed(50)
+        #Y.MaxSpeed(50)
+        #Z.MaxSpeed(30)
+        X.MaxSpeed(40)
+        Y.MaxSpeed(40)
+        Z.MaxSpeed(20)
         
         Z.GoZero(100)
         Y.GoZero(20)
@@ -154,42 +157,49 @@ try:
 
         time.sleep(1)
 
-        X.Move(30)
-        Y.Move(50)
-        Z.MoveWait(58)
-        X.Move(50)
+        X.Move(15)
+        Y.Move(150)
+        Z.MoveWait(37)
+        time.sleep(1)
+        Z.MoveWait(-5)
+        Y.Move(-4)        
+        X.MoveWait(73)
         
             
         print "Robot is running"
 
-        for y in range(2):
-            for x in range(5):
-                Z.MoveWait(5)
-                time.sleep(1)
-                Z.MoveWait(-5)
-                if x < 4:
-                    X.MoveWait(8)
-            Y.MoveWait(8)
-            for x in range(5):
-                Z.MoveWait(5)
-                time.sleep(1)
-                Z.MoveWait(-5)
-                if x < 4:
-                    X.MoveWait(-8)
-            Y.MoveWait(8)
+        xsteps = 2 #9
+        ysteps = 6
+        space = 5
+        grid = 8
 
-        X.Move(-50)
-        Z.MoveWait(-30)
+        for y in range(ysteps):
+            for x in range(xsteps):
+                Z.MoveWait(space)
+                time.sleep(1)
+                Z.MoveWait(-space)
+                if x < (xsteps - 1):
+                    X.MoveWait(grid)
+            Y.MoveWait(-grid)
+            for x in range(xsteps):
+                Z.MoveWait(space)
+                time.sleep(1)
+                Z.MoveWait(-space)
+                if x < (xsteps - 1):
+                    X.MoveWait(-grid)
+            Y.MoveWait(-grid)
+
+        X.MoveWait(-74)
+        #Z.MoveWait(-10)
+        Y.MoveWait(ysteps*grid*2+4)
         X.Float()
         Y.Float()
         Z.Float()
                    
 
-        '''
         while True:
             print X.ReadStatusBit(2)
             time.sleep(1)
-        '''
 
 finally:
     print "stop"
