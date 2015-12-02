@@ -157,7 +157,7 @@ try:
 
         time.sleep(1)
 
-        X.Move(17)
+        X.Move(16)
         Y.Move(150)
         Z.MoveWait(39)
         time.sleep(1)
@@ -171,7 +171,7 @@ try:
         ysteps = 6 # *2 + 1 line
         space = 4
         grid = 8
-        delay = 1
+        delay = 40
 
         #Y.Move(-4)        
         X.MoveWait(xcorner)
@@ -184,6 +184,7 @@ try:
                 if x < (xsteps - 1):
                     X.MoveWait(grid)
             Y.MoveWait(-grid)
+            delay = delay - 2.5
             for x in range(xsteps):
                 Z.MoveWait(space)
                 time.sleep(delay)
@@ -191,6 +192,7 @@ try:
                 if x < (xsteps - 1):
                     X.MoveWait(-grid)
             Y.MoveWait(-grid)
+            delay = delay - 2.5
 
         for x in range(xsteps):
             Z.MoveWait(space)
