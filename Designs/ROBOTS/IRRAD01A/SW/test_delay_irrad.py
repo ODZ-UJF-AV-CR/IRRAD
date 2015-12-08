@@ -171,30 +171,34 @@ try:
         ysteps = 6 # *2 + 1 line
         space = 4
         grid = 8
-        delay = 40
+        delay = 120
 
         #Y.Move(-4)        
         X.MoveWait(xcorner)
 
         for y in range(ysteps):
             for x in range(xsteps):
+                print x, y
                 Z.MoveWait(space)
                 time.sleep(delay)
                 Z.MoveWait(-space)
                 if x < (xsteps - 1):
                     X.MoveWait(grid)
             Y.MoveWait(-grid)
-            delay = delay - 2.5
+            #!!!!delay = delay - 20
             for x in range(xsteps):
+                print x, y
                 Z.MoveWait(space)
                 time.sleep(delay)
                 Z.MoveWait(-space)
                 if x < (xsteps - 1):
                     X.MoveWait(-grid)
             Y.MoveWait(-grid)
-            delay = delay - 2.5
+            delay = delay - 20
 
+	delay = 20 #!!!!!!!!!!!!!!
         for x in range(xsteps):
+            print x, y
             Z.MoveWait(space)
             time.sleep(delay)
             Z.MoveWait(-space)

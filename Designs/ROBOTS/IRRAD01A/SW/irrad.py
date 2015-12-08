@@ -144,12 +144,9 @@ try:
         Y = axis(spi.I2CSPI_SS0, 1, 642)
         Z = axis(spi.I2CSPI_SS2, 1, 32256)
 
-        #X.MaxSpeed(50)
-        #Y.MaxSpeed(50)
-        #Z.MaxSpeed(30)
-        X.MaxSpeed(35)
-        Y.MaxSpeed(35)
-        Z.MaxSpeed(20)
+        X.MaxSpeed(35) # max. 50
+        Y.MaxSpeed(35) # max. 50
+        Z.MaxSpeed(20) # max. 30
         
         Z.GoZero(100)
         Y.GoZero(20)
@@ -157,7 +154,7 @@ try:
 
         time.sleep(1)
 
-        X.Move(17)
+        X.Move(16)
         Y.Move(150)
         Z.MoveWait(39)
         time.sleep(1)
@@ -169,15 +166,17 @@ try:
         xcorner = 72
         xsteps = 9
         ysteps = 6 # *2 + 1 line
+        yy = 0
         space = 4
         grid = 8
-        delay = 1
+        delay = 40
 
-        #Y.Move(-4)        
         X.MoveWait(xcorner)
 
         for y in range(ysteps):
             for x in range(xsteps):
+                print x, yy
+                yy += 1
                 Z.MoveWait(space)
                 time.sleep(delay)
                 Z.MoveWait(-space)
@@ -185,6 +184,8 @@ try:
                     X.MoveWait(grid)
             Y.MoveWait(-grid)
             for x in range(xsteps):
+                print x, yy
+                yy += 1
                 Z.MoveWait(space)
                 time.sleep(delay)
                 Z.MoveWait(-space)
@@ -193,6 +194,7 @@ try:
             Y.MoveWait(-grid)
 
         for x in range(xsteps):
+            print x, y
             Z.MoveWait(space)
             time.sleep(delay)
             Z.MoveWait(-space)
@@ -209,7 +211,7 @@ try:
                    
 
         while True:
-            print X.ReadStatusBit(2)
+            print X.ReadStatusBit(2), "end"
             time.sleep(1)
 
 finally:
