@@ -169,32 +169,32 @@ try:
         yy = 0
         space = 4
         grid = 8
-        delay = 40
+        delay = 50
 
         X.MoveWait(xcorner)
 
         for y in range(ysteps):
             for x in range(xsteps):
                 print x, yy
-                yy += 1
                 Z.MoveWait(space)
                 time.sleep(delay)
                 Z.MoveWait(-space)
                 if x < (xsteps - 1):
                     X.MoveWait(grid)
             Y.MoveWait(-grid)
+            yy += 1
             for x in range(xsteps):
                 print x, yy
-                yy += 1
                 Z.MoveWait(space)
                 time.sleep(delay)
                 Z.MoveWait(-space)
                 if x < (xsteps - 1):
                     X.MoveWait(-grid)
             Y.MoveWait(-grid)
+            yy += 1
 
         for x in range(xsteps):
-            print x, y
+            print x, yy
             Z.MoveWait(space)
             time.sleep(delay)
             Z.MoveWait(-space)
