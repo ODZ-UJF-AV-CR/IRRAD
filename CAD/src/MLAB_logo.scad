@@ -18,20 +18,38 @@ module short_logo(){
     }            
 }
 
-module long_logo(){
-    color("white")  
-    minkowski()
+module long_logo(indented = 1){
+    if(indented == 0)
     {
-     cube([110,25,2]);
-     cylinder(r=2,h=1);
+        color("white")  
+        minkowski()
+        {
+         cube([110,25,2]);
+         cylinder(r=2,h=1);
+        }
+        color("black")        
+        union (){
+            translate ([55, 12.5, 1])  // ODROIDs passive components hole.
+                scale(v = [0.75, 0.75, 0.75])
+                    MLAB_logo_long();
+        }
     }
-
-    color("black")        
-    union (){
-        translate ([55, 12.5, 1])  // ODROIDs passive components hole.
-            scale(v = [0.75, 0.75, 0.75])
-                MLAB_logo_long();
-    }            
+    else
+    {
+        difference(){
+            color("white")  
+            minkowski()
+            {
+             cube([110,25,2]);
+             cylinder(r=2,h=1);
+            }
+            union (){
+                translate ([55, 12.5, 1.5])  // ODROIDs passive components hole.
+                    scale(v = [0.75, 0.75, 0.75])
+                        MLAB_logo_long();
+            }
+        }
+    }
 }
 
 module short_logo(){
@@ -51,7 +69,7 @@ module short_logo(){
 }
 
 //short_logo();
-long_logo();
+long_logo(indented = 1);
 
 module identification_logo(){
     color("white")  
