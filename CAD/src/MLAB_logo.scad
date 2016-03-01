@@ -69,7 +69,7 @@ module short_logo(){
 }
 
 //short_logo();
-long_logo(indented = 1);
+long_logo(indented = 0);
 
 module identification_logo(){
     color("white")  
