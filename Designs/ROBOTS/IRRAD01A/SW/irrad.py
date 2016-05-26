@@ -175,7 +175,7 @@ try:
 
         for y in range(ysteps):
             for x in range(xsteps):
-                print x, yy
+                print x+1, yy+1
                 Z.MoveWait(space)
                 time.sleep(delay)
                 Z.MoveWait(-space)
@@ -184,7 +184,7 @@ try:
             Y.MoveWait(-grid)
             yy += 1
             for x in range(xsteps):
-                print x, yy
+                print x+1, yy+1
                 Z.MoveWait(space)
                 time.sleep(delay)
                 Z.MoveWait(-space)
@@ -194,7 +194,7 @@ try:
             yy += 1
 
         for x in range(xsteps):
-            print x, yy
+            print x+1, yy+1
             Z.MoveWait(space)
             time.sleep(delay)
             Z.MoveWait(-space)
@@ -210,9 +210,9 @@ try:
         Z.Float()
                    
 
-        while True:
-            print X.ReadStatusBit(2), "end"
-            time.sleep(1)
+#        while True:
+#            print X.ReadStatusBit(2), "end"
+#            time.sleep(1)
 
 finally:
     print "stop"
