@@ -134,84 +134,53 @@ spi.route()
 
 
 try:
-    print "SPI configuration.."
-    spi.SPI_config(spi.I2CSPI_MSB_FIRST| spi.I2CSPI_MODE_CLK_IDLE_HIGH_DATA_EDGE_TRAILING| spi.I2CSPI_CLK_461kHz)
 
-    print "Robot inicialization"
-    X = axis(spi.I2CSPI_SS1, 0, 641)
-    Y = axis(spi.I2CSPI_SS0, 1, 642)
-    Z = axis(spi.I2CSPI_SS2, 1, 32256)
+    while True:
+        print "SPI configuration.."
+        spi.SPI_config(spi.I2CSPI_MSB_FIRST| spi.I2CSPI_MODE_CLK_IDLE_HIGH_DATA_EDGE_TRAILING| spi.I2CSPI_CLK_461kHz)
 
-    X.MaxSpeed(35) # max. 50
-    Y.MaxSpeed(35) # max. 50
-    Z.MaxSpeed(20) # max. 30
-    
-    Z.GoZero(100)
-    Y.GoZero(20)
-    X.GoZero(20)
+        print "Robot inicialization"
+        X = axis(spi.I2CSPI_SS1, 0, 641)
+        Y = axis(spi.I2CSPI_SS0, 1, 642)
+        Z = axis(spi.I2CSPI_SS2, 1, 32256)
 
-    time.sleep(1)
+        X.MaxSpeed(35) # max. 50
+        Y.MaxSpeed(35) # max. 50
+        Z.MaxSpeed(20) # max. 30
+        
+        #Z.GoZero(100)
+        #Y.GoZero(20)
+        print "Go to zero"
+        X.GoZero(30)
 
-    X.Move(16)
-    Y.Move(150)
-    Z.MoveWait(39)
-    time.sleep(1)
-    Z.MoveWait(-5)
+        time.sleep(1)
 
-                
-    print "Robot is running"
+        print "Go 20"
+        X.Move(20)
+        #Y.Move(150)
+        #Z.MoveWait(39)
+        time.sleep(1)
+        #Z.MoveWait(-5)
 
-    xcorner = 72
-    xsteps = 9
-    ysteps = 6 # *2 + 1 line
-    yy = 0
-    space = 4
-    grid = 8
-    delay = 50
+                    
+        print "Robot is running"
 
-    X.MoveWait(xcorner)
 
-    for y in range(ysteps):
-        for x in range(xsteps):
-            print x+1, yy+1
-            Z.MoveWait(space)
-            time.sleep(delay)
-            Z.MoveWait(-space)
-            if x < (xsteps - 1):
-                X.MoveWait(grid)
-        Y.MoveWait(-grid)
-        yy += 1
-        for x in range(xsteps):
-            print x+1, yy+1
-            Z.MoveWait(space)
-            time.sleep(delay)
-            Z.MoveWait(-space)
-            if x < (xsteps - 1):
-                X.MoveWait(-grid)
-        Y.MoveWait(-grid)
-        yy += 1
+        for x in range(5):
+            print "Go 100"
+            X.MoveWait(50)
+            time.sleep(1)
+            print "Go to zero"
+            X.GoZero(20)
 
-    for x in range(xsteps):
-        print x+1, yy+1
-        Z.MoveWait(space)
-        time.sleep(delay)
-        Z.MoveWait(-space)
-        if x < (xsteps - 1):
-            X.MoveWait(grid)
-    Y.MoveWait(-20)
+        X.Float()
+        Y.Float()
+        Z.Float()
+                   
 
-    X.MoveWait(-(xcorner+(xsteps-1)*grid))
-    #Z.MoveWait(-10)
-    Y.MoveWait(ysteps*grid*2+20)
-    X.Float()
-    Y.Float()
-    Z.Float()
-               
-
-#        while True:
-#            print X.ReadStatusBit(2), "end"
-#            time.sleep(1)
-#    sys.exit("STOP")
+        while True:
+            print X.ReadStatusBit(2), "end"
+            time.sleep(1)
 
 finally:
     print "stop"
