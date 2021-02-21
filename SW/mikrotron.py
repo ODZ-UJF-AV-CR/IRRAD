@@ -155,17 +155,20 @@ try:
     #time.sleep(1)
     Y.Float()
 
-    time.sleep(1)
+    #time.sleep(1)
 
-    X.MoveWait(10)
-    time.sleep(1)
-    X.MoveWait(10)
-    time.sleep(1)
-    X.MoveWait(10)
-    time.sleep(1)
-    X.MoveWait(10)
-    time.sleep(1)
-    #Z.MoveWait(16)
+    while(True):
+        if (len(raw_input('Home...')) > 0):
+	    break
+	X.MoveWait(30)
+	raw_input('SPACEDOS')
+        X.Move(30)
+	Z.MoveWait(30)
+	raw_input('NaI(Tl)')
+        X.Move(30)
+	Z.MoveWait(-30)
+        raw_input('CRY-19')
+	X.MoveWait(-90)
 
                     
     print "Robot is running"
