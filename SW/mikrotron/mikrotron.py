@@ -157,18 +157,40 @@ try:
 
     #time.sleep(1)
 
+    NAITL = 30
+    CRY = 45
+    SPACEDOS = 50
+
     while(True):
         if (len(raw_input('Home...')) > 0):
 	    break
-	X.MoveWait(30)
-	raw_input('SPACEDOS')
-        X.Move(30)
-	Z.MoveWait(30)
-	raw_input('NaI(Tl)')
-        X.Move(30)
-	Z.MoveWait(-30)
-        raw_input('CRY-19')
-	X.MoveWait(-90)
+	X.MaxSpeed(10) # max. 50
+	Y.MaxSpeed(10) # max. 50
+	Z.MaxSpeed(35) # max. 30
+
+	print('To NaI(Tl)')
+	X.Move(NAITL)
+	Z.MoveWait(60)
+	raw_input('in position NaI(Tl)')
+	print('To CRY-19')
+        X.MoveWait(CRY)
+	#Z.MoveWait(30)
+	raw_input('in position CRY-19')
+	print('To SPACEDOS')
+        X.MoveWait(SPACEDOS)
+        raw_input('in position SPACEDOS')
+	print('to RT')
+	X.MaxSpeed(10) # max. 50
+	Y.MaxSpeed(10) # max. 50
+	Z.MaxSpeed(35) # max. 30
+	Z.MoveWait(-64)
+        raw_input('in position RT')
+	print('To Home')
+	X.MaxSpeed(10) # max. 50
+	Y.MaxSpeed(10) # max. 50
+	Z.MaxSpeed(35) # max. 30
+	Z.Move(4)
+	X.MoveWait(-(NAITL+CRY+SPACEDOS))
 
                     
     print "Robot is running"
